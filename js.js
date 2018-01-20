@@ -4,6 +4,7 @@
     let inputAreaValue = document.getElementById('addItems');
     let parentTag = document.getElementById('parentOfTags');
     let set = new Set();
+    let newOfSet = new Set();
     buttonAddTag.addEventListener('click', addItem);
     parentTag.addEventListener('click', removeItem);
 
@@ -11,6 +12,7 @@
         let value = inputAreaValue.value;
         if (value !== '') {
             set.add(value);
+            newOfSet.add(value);
             inputAreaValue.value = '';
             let arrayOfTags = Array.from(set);
             arrayOfTags.sort();
@@ -32,7 +34,6 @@
     };
 
     function removeItem(event) {
-        console.log(event);
         let isRemoveTag = event.target.className === 'cancelBtn';
         if (isRemoveTag) {
             let item = event.target.closest('#btnGroupWrapper');
@@ -54,7 +55,7 @@
 
     function completeList(event) {
         let val = inputArea.value.trim().toLowerCase();
-        let newArrayTags = Array.from(set);
+        let newArrayTags = Array.from(newOfSet);
         if (val) {
             let listOfWords = newArrayTags.filter(function (item) {
                 return item.toLowerCase().indexOf(val) === 0;
@@ -83,10 +84,10 @@
 
     function selectWord(event) {
         let targ = event.target;
-        console.log(targ.innerHTML);
         if (targ.parentNode === list) {
             listOfTags.innerHTML += targ.innerHTML + '<br>';
             list.removeChild(targ);
+            newOfSet.delete(targ.innerHTML)
             inputArea.value='';
             list.style.display = 'none';
         }
